@@ -1,0 +1,16 @@
+.gradle/
+build/
+app/build/
+local.properties
+keystore.properties
+*.jks
+*.apk
+.idea/
+.tmp/
+repo_ref/
+build_log.txt
+.kotlin/
+*.zip
+personal_projects_handoff.md
+playtranslate_focus_handoff.md
+docs/__pycache__/

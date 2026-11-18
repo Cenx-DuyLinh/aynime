@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Anime browser mockup (Ayn Thor)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+  <div class="device">
+    <div class="screen top-screen">
+      <div class="toolbar">
+        <button class="icon-button" data-action="go-back" title="Back">&#8592;</button>
+        <button class="icon-button" data-action="go-home" title="Home">&#8962;</button>
+        <form id="address-form" class="address-form">
+          <input id="address-bar" class="address-bar" autocomplete="off" placeholder="Search anime or type a site address">
+        </form>
+        <span id="blocked-pill" class="blocked-pill hidden"></span>
+        <button id="star-button" class="icon-button hidden" data-action="toggle-saved-site" title="Save site">&#9734;</button>
+        <button class="icon-button" data-action="open-settings" title="Settings">&#8942;</button>
+      </div>
+      <div id="detection-bar" class="detection-bar hidden"></div>
+      <div id="page" class="page"></div>
+      <div id="modal" class="modal hidden"></div>
+      <div id="toast" class="toast hidden"></div>
+    </div>
+    <div class="hinge"></div>
+    <div class="screen bottom-screen" id="bottom-screen"></div>
+  </div>
+  <div class="side-panel">
+    <h2>Thor buttons</h2>
+    <p class="muted">Work while a video is open. Keyboard keys in brackets.</p>
+    <button class="thor-button" data-action="previous-line">L1 &nbsp; previous line [Q]</button>
+    <button class="thor-button" data-action="replay-line">X &nbsp; replay line [R]</button>
+    <button class="thor-button" data-action="next-line">R1 &nbsp; next line [E]</button>
+    <button class="thor-button" data-action="toggle-play">A &nbsp; play / pause [Space]</button>
+    <button class="thor-button" data-action="toggle-subtitles">Y &nbsp; hide / show subtitle [H]</button>
+    <h2>About this mockup</h2>
+    <p class="muted">Top: our browser app. Bottom: a stand-in for the real PlayTranslate, which in the real setup reads the subtitle box from the top screen.</p>
+    <p class="muted">Everything is fake: sites, search results, video and subtitles. Nothing is loaded from the internet.</p>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

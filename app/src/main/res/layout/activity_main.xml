@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:id="@+id/main_column"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/bar_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp">
+
+            <ImageButton android:id="@+id/back_button" style="@style/RoundIconButton" android:contentDescription="Back" android:src="@drawable/ic_bar_back" />
+            <ImageButton android:id="@+id/home_button" style="@style/RoundIconButton" android:contentDescription="Home" android:src="@drawable/ic_bar_home" />
+            <ImageButton android:id="@+id/reload_button" style="@style/RoundIconButton" android:contentDescription="Reload" android:src="@drawable/ic_bar_refresh" />
+
+            <EditText
+                android:id="@+id/address_bar"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/address_background"
+                android:hint="Search anime or type a site address"
+                android:imeOptions="actionGo"
+                android:inputType="textUri"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:singleLine="true"
+                android:textColor="@color/ink"
+                android:textColorHint="@color/muted"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/blocked_pill"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/pill_good"
+                android:drawableStart="@drawable/ic_bar_shield"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/good"
+                android:textSize="11sp"
+                android:visibility="gone" />
+
+            <ImageButton android:id="@+id/star_button" style="@style/RoundIconButton" android:contentDescription="Save site" android:src="@drawable/ic_bar_star_outline" android:visibility="gone" />
+            <ImageButton android:id="@+id/menu_button" style="@style/RoundIconButton" android:contentDescription="Menu" android:src="@drawable/ic_bar_more" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <WebView
+                android:id="@+id/web_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fullscreen_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/subtitle_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:paddingStart="18dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="4dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/subtitle_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/pill_background"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="6dp"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/status_dot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/status_dot" />
+
+        <TextView
+            android:id="@+id/status_short"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:maxWidth="220dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/ink"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/offset_group_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView android:id="@+id/offset_earlier_button" style="@style/OffsetStepButton" android:text="−" />
+            <TextView
+                android:id="@+id/offset_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dp"
+                android:gravity="center"
+                android:textColor="@color/good"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <TextView android:id="@+id/offset_later_button" style="@style/OffsetStepButton" android:text="+" />
+        </LinearLayout>
+
+        <ImageButton android:id="@+id/sync_now_button" style="@style/RoundIconButton" android:contentDescription="Sync to the line just heard" android:src="@drawable/ic_pill_sync" />
+        <ImageButton android:id="@+id/find_again_button" style="@style/RoundIconButton" android:contentDescription="Find subtitles again" android:src="@drawable/ic_pill_refresh" />
+        <ImageButton android:id="@+id/subtitles_button" style="@style/RoundIconButton" android:contentDescription="Choose subtitles" android:src="@drawable/ic_pill_subtitles" />
+        <ImageButton android:id="@+id/style_button" style="@style/RoundIconButton" android:contentDescription="Subtitle style" android:src="@drawable/ic_pill_style" />
+    </LinearLayout>
+</FrameLayout>

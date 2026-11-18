@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can't reach this site</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<h1>Can't reach <span id="site-name"></span></h1>
+<div class="card">
+  <div id="reason" class="muted"></div>
+  <p>Sites like this often move to a new address or go down for a while.</p>
+</div>
+<div class="card clickable row-card" id="try-again"><b>Try again</b><span class="muted">›</span></div>
+<div class="card clickable row-card" id="search-google"><b id="search-google-text"></b><span class="muted">›</span></div>
+<div class="card clickable row-card hidden-until-saved" id="edit-site"><b>Change the saved address or remove it</b><span class="muted">›</span></div>
+<script src="bridge.js"></script>
+<script src="error.js"></script>
+</body>
+</html>

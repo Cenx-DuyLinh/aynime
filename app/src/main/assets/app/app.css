@@ -1,0 +1,80 @@
+:root {
+  --app-background: #1F1E1C;
+  --card: #2A2926;
+  --border: #3A3833;
+  --ink: #ECE8E0;
+  --muted: #9C968A;
+  --accent: #D97757;
+  --good: #7FC48D;
+  --warning: #E0A43A;
+  --placeholder: #45423C;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 18px 26px 40px;
+  background: var(--app-background);
+  color: var(--ink);
+  font-family: "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+}
+
+h1, .section-heading, .anime-title-native { font-family: "Noto Serif JP", "Noto Serif CJK JP", serif; }
+h1 { font-size: 24px; margin: 4px 0 14px; }
+.section-heading { font-size: 17px; font-weight: bold; margin: 18px 0 8px; }
+.muted { color: var(--muted); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.clickable { cursor: pointer; }
+.clickable:active { border-color: var(--accent); }
+.empty-note { color: var(--muted); font-size: 13px; }
+
+.saved-sites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.saved-site-tile { text-align: center; padding: 14px 8px; }
+.site-badge {
+  width: 40px; height: 40px; margin: 0 auto 8px; border-radius: 10px;
+  background: var(--accent); color: white; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.row-card { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+.anime-card { display: flex; gap: 14px; }
+.anime-card .details { flex: 1; min-width: 0; }
+.cover { width: 64px; height: 90px; border-radius: 8px; object-fit: cover; background: var(--placeholder); flex: none; }
+.anime-title-native { font-size: 17px; font-weight: bold; }
+.anime-meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
+.subtitle-status { font-size: 12px; font-weight: bold; margin-top: 8px; color: var(--muted); }
+.subtitle-status.found { color: var(--good); }
+.subtitle-status.missing { color: var(--warning); }
+
+.open-buttons { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.pill-button {
+  border: none; border-radius: 14px; padding: 7px 12px; font-size: 12px; font-weight: bold;
+  background: var(--placeholder); color: var(--ink);
+}
+.pill-button.primary { background: var(--accent); color: white; }
+
+.not-matched { color: var(--warning); }
+
+.cover-initial {
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Noto Serif JP", "Noto Serif CJK JP", serif; font-size: 26px; color: var(--muted);
+}
+
+.anime-list-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; align-items: start; }
+.anime-list-grid .card { margin-bottom: 0; }
+.watched-sites { margin-top: 10px; border-top: 1px solid var(--border); }
+.watched-site-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.watched-site-row:last-child { border-bottom: none; padding-bottom: 0; }

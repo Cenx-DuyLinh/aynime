@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Aynime</string>
+    <string name="controller_keys_service_label">Aynime controller buttons</string>
+    <string name="controller_keys_service_description">Lets the controller buttons you assigned in Aynime (previous line, next line, sync and so on) reach Aynime while another app, such as PlayTranslate on the bottom screen, has focus. It only works while Aynime is open, only uses the buttons you assigned, and does not read anything on the screen. When you use PlayTranslate while a video is open in Aynime, it makes one invisible tap on Aynime\'s own screen so the controller goes back to Aynime (you can turn this off in Aynime\'s Controller buttons).</string>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <color name="app_background">#1F1E1C</color>
+    <color name="card">#2A2926</color>
+    <color name="border">#3A3833</color>
+    <color name="ink">#ECE8E0</color>
+    <color name="muted">#9C968A</color>
+    <color name="accent">#D97757</color>
+    <color name="good">#7FC48D</color>
+    <color name="good_background">#24362A</color>
+</resources>
