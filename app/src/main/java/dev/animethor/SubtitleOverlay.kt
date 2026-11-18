@@ -22,6 +22,11 @@ class SubtitleOverlay(private val textView: TextView, private val container: Vie
         // Autosize ignores setTextSize, so switch it off while the full size is set and measured.
         textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE)
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, newStyle.textSizeSp.toFloat())
+        // Line height from the text size alone: the Japanese fallback font's own spacing and the
+        // font padding would make each line about 1.45x the text size and the band much taller.
+        textView.includeFontPadding = false
+        textView.isFallbackLineSpacing = false
+        textView.setLineHeight((textView.textSize * LINE_HEIGHT_EM).toInt())
         bandHeightPx = twoLineHeightPx()
         // The band is always two lines tall; a longer line shrinks the text instead of growing the band.
         textView.setAutoSizeTextTypeUniformWithConfiguration(
@@ -74,7 +79,7 @@ class SubtitleOverlay(private val textView: TextView, private val container: Vie
         val layout = StaticLayout.Builder.obtain(sample, 0, sample.length, textView.paint, MEASURE_WIDTH_PX)
             .setIncludePad(textView.includeFontPadding)
             .setLineSpacing(textView.lineSpacingExtra, textView.lineSpacingMultiplier)
-            .setUseLineSpacingFromFallbacks(true) // as TextView does, so Japanese fallback fonts are measured
+            .setUseLineSpacingFromFallbacks(textView.isFallbackLineSpacing)
             .build()
         val slack = (textView.resources.displayMetrics.density * HEIGHT_SLACK_DP).toInt()
         return layout.height + textView.paddingTop + textView.paddingBottom + slack
@@ -128,6 +133,7 @@ class SubtitleOverlay(private val textView: TextView, private val container: Vie
         const val TEXT_SHADOW_OFFSET = 2f
         const val LIFT_ANIMATION_MS = 220L
         const val MIN_AUTO_TEXT_SP = 12
+        const val LINE_HEIGHT_EM = 1.1f
         const val HEIGHT_SLACK_DP = 2
         const val MEASURE_WIDTH_PX = 100_000
         const val TWO_LINE_SAMPLE = "あ漢Ag\nあ漢Ag"
