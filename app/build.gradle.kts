@@ -20,8 +20,8 @@ android {
         applicationId = "dev.animethor.browser"
         minSdk = 29
         targetSdk = 35
-        versionCode = 36
-        versionName = "0.7.5"
+        versionCode = 37
+        versionName = "0.7.6"
     }
 
     signingConfigs {
