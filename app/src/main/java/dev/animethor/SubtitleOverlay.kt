@@ -3,6 +3,7 @@ package dev.animethor
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.text.StaticLayout
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
@@ -14,11 +15,21 @@ import com.google.android.material.materialswitch.MaterialSwitch
 
 class SubtitleOverlay(private val textView: TextView, private val container: View) {
     private var style = OverlayStyle.DEFAULT
+    private var bandHeightPx = 0
 
     fun applyStyle(newStyle: OverlayStyle) {
         style = newStyle
+        // Autosize ignores setTextSize, so switch it off while the full size is set and measured.
+        textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE)
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, newStyle.textSizeSp.toFloat())
-        textView.minLines = 1
+        bandHeightPx = twoLineHeightPx()
+        // The band is always two lines tall; a longer line shrinks the text instead of growing the band.
+        textView.setAutoSizeTextTypeUniformWithConfiguration(
+            minOf(MIN_AUTO_TEXT_SP, newStyle.textSizeSp),
+            newStyle.textSizeSp,
+            1,
+            TypedValue.COMPLEX_UNIT_SP,
+        )
         textView.background = if (newStyle.softEdges) softBand(newStyle) else roundedBox(newStyle)
         textView.setShadowLayer(TEXT_SHADOW_RADIUS, 0f, TEXT_SHADOW_OFFSET, Color.argb(160, 0, 0, 0))
         textView.setTextColor(opaque(newStyle.textColor))
@@ -35,26 +46,20 @@ class SubtitleOverlay(private val textView: TextView, private val container: Vie
         val layoutParams = textView.layoutParams as FrameLayout.LayoutParams
         val newWidth = width * style.widthPercent / 100
         val newBottomMargin = height * style.bottomMarginPercent / 100
-        val newBandHeight = height * style.bandHeightPercent / 100
-        if (textView.minHeight != newBandHeight) {
-            textView.minHeight = newBandHeight
-        }
-        if (layoutParams.width == newWidth && layoutParams.bottomMargin == newBottomMargin) {
+        if (layoutParams.width == newWidth && layoutParams.height == bandHeightPx && layoutParams.bottomMargin == newBottomMargin) {
             return
         }
         layoutParams.width = newWidth
+        layoutParams.height = bandHeightPx
         layoutParams.bottomMargin = newBottomMargin
         textView.layoutParams = layoutParams
     }
 
+    /** Shows the band with [text] inside; a gap between lines leaves the band up and empty. */
     fun show(text: String) {
-        val showsEmptyBox = text.isBlank() && style.keepBoxBetweenLines
-        if (text.isBlank() && !showsEmptyBox) {
-            textView.visibility = View.GONE
-            return
-        }
-        if (textView.text.toString() != text) {
-            textView.text = text
+        val shown = if (text.isBlank()) "" else text
+        if (textView.text.toString() != shown) {
+            textView.text = shown
         }
         textView.visibility = View.VISIBLE
     }
@@ -63,10 +68,21 @@ class SubtitleOverlay(private val textView: TextView, private val container: Vie
         textView.visibility = View.GONE
     }
 
+    /** Height of two lines of subtitle text at the full text size, plus the band's padding. */
+    private fun twoLineHeightPx(): Int {
+        val sample = TWO_LINE_SAMPLE
+        val layout = StaticLayout.Builder.obtain(sample, 0, sample.length, textView.paint, MEASURE_WIDTH_PX)
+            .setIncludePad(textView.includeFontPadding)
+            .setLineSpacing(textView.lineSpacingExtra, textView.lineSpacingMultiplier)
+            .setUseLineSpacingFromFallbacks(true) // as TextView does, so Japanese fallback fonts are measured
+            .build()
+        val slack = (textView.resources.displayMetrics.density * HEIGHT_SLACK_DP).toInt()
+        return layout.height + textView.paddingTop + textView.paddingBottom + slack
+    }
+
     fun bandTopFromBottomPx(): Float {
         val bottomMargin = container.height * style.bottomMarginPercent / 100f
-        val bandHeight = maxOf(textView.height, textView.minHeight).toFloat()
-        return bottomMargin + bandHeight - textView.translationY
+        return bottomMargin + bandHeightPx - textView.translationY
     }
 
     fun setLifted(lifted: Boolean) {
@@ -111,6 +127,10 @@ class SubtitleOverlay(private val textView: TextView, private val container: Vie
         const val TEXT_SHADOW_RADIUS = 4f
         const val TEXT_SHADOW_OFFSET = 2f
         const val LIFT_ANIMATION_MS = 220L
+        const val MIN_AUTO_TEXT_SP = 12
+        const val HEIGHT_SLACK_DP = 2
+        const val MEASURE_WIDTH_PX = 100_000
+        const val TWO_LINE_SAMPLE = "あ漢Ag\nあ漢Ag"
     }
 }
 
@@ -128,9 +148,6 @@ class OverlayStyleDialog(
         }
         content.addView(slider("Box darkness", 0, 100, style.backgroundOpacityPercent, "%") {
             style = style.copy(backgroundOpacityPercent = it)
-        })
-        content.addView(slider("Band height", 5, 40, style.bandHeightPercent, "% of screen") {
-            style = style.copy(bandHeightPercent = it)
         })
         content.addView(slider("Text size", 14, 44, style.textSizeSp, " sp") {
             style = style.copy(textSizeSp = it)
@@ -151,7 +168,6 @@ class OverlayStyleDialog(
             style = style.copy(textColor = it)
         })
         content.addView(softEdgesSwitch())
-        content.addView(keepBoxSwitch())
         content.addView(note(BURNED_IN_SUBTITLE_TIP))
         MaterialAlertDialogBuilder(context)
             .setTitle("Subtitle box")
@@ -171,16 +187,6 @@ class OverlayStyleDialog(
         setPadding(0, dp(12), 0, 0)
         setOnCheckedChangeListener { _, isChecked ->
             style = style.copy(softEdges = isChecked)
-            onStyleChanged(style)
-        }
-    }
-
-    private fun keepBoxSwitch(): View = MaterialSwitch(context).apply {
-        text = "Keep the box up between lines"
-        isChecked = style.keepBoxBetweenLines
-        setPadding(0, dp(12), 0, 0)
-        setOnCheckedChangeListener { _, isChecked ->
-            style = style.copy(keepBoxBetweenLines = isChecked)
             onStyleChanged(style)
         }
     }

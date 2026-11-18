@@ -48,8 +48,6 @@ data class OverlayStyle(
     val textSizeSp: Int,
     val bottomMarginPercent: Int,
     val widthPercent: Int,
-    val bandHeightPercent: Int,
-    val keepBoxBetweenLines: Boolean,
     val softEdges: Boolean,
     val pausedLiftPercent: Int,
     val bandColor: Int,
@@ -61,8 +59,6 @@ data class OverlayStyle(
             textSizeSp = 30,
             bottomMarginPercent = 0,
             widthPercent = 86,
-            bandHeightPercent = 15,
-            keepBoxBetweenLines = false,
             softEdges = true,
             pausedLiftPercent = 12,
             bandColor = 0x141210,
@@ -240,8 +236,6 @@ class AppStore(context: Context) {
             textSizeSp = preferences.getInt(KEY_OVERLAY_TEXT_SIZE, default.textSizeSp),
             bottomMarginPercent = preferences.getInt(KEY_OVERLAY_BOTTOM, default.bottomMarginPercent),
             widthPercent = preferences.getInt(KEY_OVERLAY_WIDTH, default.widthPercent),
-            bandHeightPercent = preferences.getInt(KEY_OVERLAY_BAND_HEIGHT, default.bandHeightPercent),
-            keepBoxBetweenLines = preferences.getBoolean(KEY_OVERLAY_KEEP_BOX, default.keepBoxBetweenLines),
             softEdges = preferences.getBoolean(KEY_OVERLAY_SOFT_EDGES, default.softEdges),
             pausedLiftPercent = preferences.getInt(KEY_OVERLAY_PAUSED_LIFT, default.pausedLiftPercent),
             bandColor = preferences.getInt(KEY_OVERLAY_BAND_COLOR, default.bandColor),
@@ -255,8 +249,6 @@ class AppStore(context: Context) {
             .putInt(KEY_OVERLAY_TEXT_SIZE, style.textSizeSp)
             .putInt(KEY_OVERLAY_BOTTOM, style.bottomMarginPercent)
             .putInt(KEY_OVERLAY_WIDTH, style.widthPercent)
-            .putInt(KEY_OVERLAY_BAND_HEIGHT, style.bandHeightPercent)
-            .putBoolean(KEY_OVERLAY_KEEP_BOX, style.keepBoxBetweenLines)
             .putBoolean(KEY_OVERLAY_SOFT_EDGES, style.softEdges)
             .putInt(KEY_OVERLAY_PAUSED_LIFT, style.pausedLiftPercent)
             .putInt(KEY_OVERLAY_BAND_COLOR, style.bandColor)
@@ -333,8 +325,6 @@ class AppStore(context: Context) {
         const val KEY_OVERLAY_TEXT_SIZE = "overlay_text_size_v2"
         const val KEY_OVERLAY_BOTTOM = "overlay_bottom_v5"
         const val KEY_OVERLAY_WIDTH = "overlay_width_v3"
-        const val KEY_OVERLAY_BAND_HEIGHT = "overlay_band_height"
-        const val KEY_OVERLAY_KEEP_BOX = "overlay_keep_box_v3"
         const val KEY_OVERLAY_SOFT_EDGES = "overlay_soft_edges"
         const val KEY_OVERLAY_PAUSED_LIFT = "overlay_paused_lift"
         const val KEY_OVERLAY_BAND_COLOR = "overlay_band_color"
