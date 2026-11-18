@@ -32,6 +32,13 @@ object Addresses {
 
     fun isInternal(url: String?): Boolean = url != null && Uri.parse(url).host == INTERNAL_HOST
 
+    /** True only for an outside http(s) address, so a retry can never run a script or open an internal page. */
+    fun isRetryableWebAddress(url: String): Boolean {
+        val uri = Uri.parse(url)
+        val isWeb = uri.scheme.equals("http", ignoreCase = true) || uri.scheme.equals("https", ignoreCase = true)
+        return isWeb && !uri.host.isNullOrEmpty() && uri.host != INTERNAL_HOST
+    }
+
     fun isGoogleSearch(url: String?): Boolean {
         if (url == null) {
             return false

@@ -67,6 +67,8 @@ class BrowserWebViewClient(
             !isWebAddress -> true
             targetHost == null -> true
             adBlocker.isBlocked(targetHost) -> true
+            // Internal pages are reached only from the app or from another internal page, never by a redirect.
+            targetHost == Addresses.INTERNAL_HOST -> request.isRedirect || !Addresses.isInternal(view.url)
             request.isRedirect -> false
             else -> !NavigationRules.allowsNavigation(view.url, target)
         }

@@ -402,7 +402,7 @@ class MainActivity : AppCompatActivity(), BrowserEvents, InternalPageActions {
     private fun reloadPage() {
         val currentUrl = webView.url
         val failedUrl = if (Addresses.isErrorPage(currentUrl)) Uri.parse(currentUrl).getQueryParameter("url") else null
-        if (failedUrl != null) {
+        if (failedUrl != null && Addresses.isRetryableWebAddress(failedUrl)) {
             webView.loadUrl(failedUrl)
         } else {
             webView.reload()
@@ -645,7 +645,7 @@ class MainActivity : AppCompatActivity(), BrowserEvents, InternalPageActions {
         val target = Uri.parse(url)
         val isWebAddress = target.scheme == "http" || target.scheme == "https"
         val snackbar = Snackbar.make(rootView, "Blocked a jump to ${target.host ?: target.scheme}", Snackbar.LENGTH_LONG)
-        if (isWebAddress && !adBlocker.isBlocked(target.host ?: "")) {
+        if (isWebAddress && target.host != Addresses.INTERNAL_HOST && !adBlocker.isBlocked(target.host ?: "")) {
             snackbar.setAction("Open anyway") { webView.loadUrl(url) }
         }
         snackbar.show()

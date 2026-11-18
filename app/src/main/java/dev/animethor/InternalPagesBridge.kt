@@ -43,6 +43,10 @@ class InternalPagesBridge(
         isMainFrame: Boolean,
         replyProxy: JavaScriptReplyProxy,
     ) {
+        // Act only for an internal page itself: not for frames embedded in it, and not once the tab has left it.
+        if (!isMainFrame || !Addresses.isInternal(view.url)) {
+            return
+        }
         val request = runCatching { JSONObject(message.data ?: "") }.getOrNull() ?: return
         when (request.optString("name")) {
             "getHomeData" -> {
