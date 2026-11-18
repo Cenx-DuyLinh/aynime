@@ -283,7 +283,7 @@ class OverlayStyleDialog(
         const val SELECTED_RING_COLOR = 0xFFD97757.toInt()
         const val UNSELECTED_RING_COLOR = 0xFF3A3833.toInt()
         const val BURNED_IN_SUBTITLE_TIP =
-            "Burned-in English subtitles: move the box over them with Distance from bottom, and set PlayTranslate's " +
-                "capture region to the box only. Below 100% darkness the English shows through and PlayTranslate may read it."
+            "Burned-in English subtitles: move the box over them with Distance from bottom. PlayTranslate reads " +
+                "the line straight from Aynime (not from the screen), so any darkness works; set its capture region to the box."
     }
 }

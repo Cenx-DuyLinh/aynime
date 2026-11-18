@@ -167,11 +167,13 @@ class MainActivity : AppCompatActivity(), BrowserEvents, InternalPageActions {
         ControllerKeyRouting.playTranslateUsedWhileAynimeIsOpen = { packageName -> onPlayTranslateUsed(packageName) }
         ControllerKeyRouting.pressWatcherWhileAynimeIsOpen = { keyCode -> pauseIfCaptureButton(keyCode) }
         ControllerKeyRouting.startCatchingStick()
+        SubtitleShare.attach(findViewById(R.id.subtitle_overlay))
         ticker.post(tick)
         Choreographer.getInstance().postFrameCallback(keepVideoFramesFlowing)
     }
 
     override fun onStop() {
+        SubtitleShare.attach(null)
         ControllerKeyRouting.handlerWhileAynimeIsOpen = null
         ControllerKeyRouting.stickHandlerWhileAynimeIsOpen = null
         ControllerKeyRouting.playTranslateUsedWhileAynimeIsOpen = null

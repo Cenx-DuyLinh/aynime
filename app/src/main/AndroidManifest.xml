@@ -36,6 +36,13 @@
                 android:resource="@xml/controller_keys_service" />
         </service>
 
+        <!-- PlayTranslate reads the subtitle line on screen here instead of running OCR on the band.
+             Exported, but it answers only PlayTranslate (checked in the provider). -->
+        <provider
+            android:name=".SubtitleShareProvider"
+            android:authorities="${applicationId}.subtitles"
+            android:exported="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.updates"
